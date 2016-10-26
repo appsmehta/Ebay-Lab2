@@ -1,3 +1,5 @@
+var mongo = require("./mongo");
+var mongoURL = "mongodb://localhost:27017/login";
 var ejs = require('ejs');
 var mysql = require('./mysql');
 require("client-sessions");
@@ -45,7 +47,7 @@ exports.ad = function(req,res) {
 
 }
 
-exports.getAds = function(req,res) {
+var getAds = function(req,res) {
 
 
 
@@ -85,7 +87,7 @@ exports.getAds = function(req,res) {
 
 }
 
-exports.getAuctions = function(req,res){
+var getAuctions = function(req,res){
 
 	winston.info("Requested all auctions");
 	console.log("Trying dateformat");
@@ -194,7 +196,7 @@ exports.getAuctions = function(req,res){
 	}
 
 
-	exports.postAd = function (req,res) {
+var postAd = function (req,res) {
 
 
 	//if(req.session.username!=undefined)
@@ -230,7 +232,7 @@ exports.getAuctions = function(req,res){
 }
 
 
-exports.postAuction = function(req,res) {
+var postAuction = function(req,res) {
 
 	winston.info("Clicked:Post Auction");
 	var expirydate = new Date();
@@ -486,4 +488,168 @@ exports.concludeAuction = function (req,res){
 
 }
 
+var postAdM = function (req,res) {
 
+
+	//if(req.session.username!=undefined)
+	{
+		console.log(req.body.item_quantity);
+
+		winston.info("Clicked: Mongo Post Ad");
+
+		var posted_at = new Date();
+		var expires_at = new Date();
+		expires_at=expires_at.setTime(posted_at.getTime() + (4*86400000));
+		posted_at = dateFormat(posted_at, "yyyy:mm:dd HH:MM:ss");	
+		expires_at = dateFormat(expires_at, "yyyy:mm:dd HH:MM:ss");
+		var product = 
+		{
+			'product_id': 1,
+			'item_name':req.body.item_name,
+			'item_description':req.body.item_description,
+			'seller_name':req.session.username,
+			'item_price':req.body.item_price,
+			'item_quantity':req.body.item_quantity,
+			'sale_type':"sale",
+			'posted_at': posted_at,
+			'expires_at':expires_at,
+			bids : [],
+			orders: []							
+
+		}
+
+		mongo.connect(mongoURL, function(){
+		console.log('Connected to mongo at: ' + mongoURL);
+		var coll = mongo.collection('products');
+
+		coll.insert(product, function(err,produt){
+
+			if(product)
+			{
+			console.log(product);
+			res.json({ statusCode: 200 })
+					res.end();
+			
+			}
+			else
+				console.log(err);
+
+		});
+		});
+	}
+}
+
+
+var postAuctionM = function(req,res) {
+
+	console.log(req.body.item_quantity);
+
+		winston.info("Clicked: Mongo Post Auction");
+
+		var posted_at = new Date();
+		var expires_at = new Date();
+		expires_at=expires_at.setTime(posted_at.getTime() + (4*86400000));
+		posted_at = dateFormat(posted_at, "yyyy:mm:dd HH:MM:ss");	
+		expires_at = dateFormat(expires_at, "yyyy:mm:dd HH:MM:ss");
+		var product = 
+		{
+			'product_id': 2,
+			'item_name':req.body.item_name,
+			'item_description':req.body.item_description,
+			'seller_name':req.session.username,
+			'item_price':req.body.item_price,
+			'item_quantity':req.body.item_quantity,
+			'sale_type':"Auction",
+			'posted_at': posted_at,
+			'expires_at':expires_at,
+			bids : [],
+			orders: []							
+
+		}
+
+		mongo.connect(mongoURL, function(){
+		console.log('Connected to mongo at: ' + mongoURL);
+		var coll = mongo.collection('products');
+
+		coll.insert(product, function(err,produt){
+
+			if(product)
+			{
+			console.log(product);
+			res.json({ statusCode: 200 })
+					res.end();
+			
+			}
+			else
+				console.log(err);
+
+		});
+		});
+	}
+
+var getAdsM = function(req,res) {
+
+
+
+	if(req.session.username!=undefined)
+	{
+		winston.info("Requested Mongo all ads");
+
+		mongo.connect(mongoURL, function(){
+		console.log('Connected to mongo at: ' + mongoURL);
+		var coll = mongo.collection('products');
+
+		coll.find({sale_type:'sale'}).toArray(function(err,sales){
+
+			console.log(sales);
+			res.json({'ads':sales,"itemsincart":req.session.cartitems,"orderedquantities":req.session.cartqty});
+
+			});
+		});
+	}
+
+	else {
+
+		res.json({"logged-in":"false"})
+	}
+
+}
+
+var getAuctionsM = function(req,res) {
+
+
+
+	if(req.session.username!=undefined)
+	{
+		winston.info("Requested Mongo all auctions");
+
+		var now = new Date();
+		now = dateFormat(now, "yyyy:mm:dd HH:MM:ss");	
+
+
+		mongo.connect(mongoURL, function(){
+		console.log('Connected to mongo at: ' + mongoURL);
+		var coll = mongo.collection('products');
+
+		coll.find({sale_type:'Auction',expires_at:{$gt:now}}).toArray(function(err,auctions){
+
+			console.log(auctions);
+			res.json({'auctions':auctions});
+
+			});
+		});
+	}
+
+	else {
+
+		res.json({"logged-in":"false"})
+	}
+
+}
+
+
+
+exports.getAuctions= getAuctionsM;
+exports.postAd = postAdM;
+exports.postAuction = postAuctionM;
+exports.getAds = getAdsM;

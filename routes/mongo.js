@@ -25,3 +25,4 @@ exports.collection = function(name){
     return db.collection(name);
   
 };
+

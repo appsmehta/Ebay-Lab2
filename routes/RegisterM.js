@@ -14,6 +14,7 @@ exports.authenticate= function(req,res){
 	console.log(username+password);
 	
 	var salt = "theSECRETString";
+	password = crypto.createHash('sha512').update(password + salt).digest("hex");
 
 	mongo.connect(mongoURL, function(){
 		console.log('Connected to mongo at: ' + mongoURL);
@@ -25,13 +26,32 @@ exports.authenticate= function(req,res){
 
 				req.session.username = username;
 
-				req.session.previous_logged_in = dateFormat(user.last_logged_in, "yyyy:mm:dd HH:MM:ss");
+				req.session.previous_logged_in = user.last_logged_in;
+				//dateFormat(user.last_logged_in, "yyyy:mm:dd HH:MM:ss");
 				// This way subsequent requests will know the user is logged in.
 				req.session.firstName = user.firstName;
 				req.session.lastName = user.lastName;
+
+				var previous_logged_in=user.last_logged_in;
+				console.log("Previous login:"+previous_logged_in);
+				var now = new Date();
+				console.log(now);
+				var mydate = dateFormat(now, "yyyy:mm:dd HH:MM:ss");
+				console.log(mydate);
+
+
+					coll.update({'email':username},{$set:{'last_logged_in':mydate},function(err,result){
+
+						console.log(result);
+					}
+				});
+
+
+
+
 				
 				console.log(req.session.username +" is the session");
-				json_responses = {"statusCode" : 200,"username":req.session.username,"previous_logged_in":"n/a"};
+				json_responses = {"statusCode" : 200,"username":req.session.username,"previous_logged_in":req.session.previous_logged_in};
 		    res.send(json_responses);
 
 				
@@ -84,5 +104,48 @@ exports.authenticate= function(req,res){
 		
 	}  
 },checkUser); */
+
+}
+
+exports.signup = function(req,res){
+
+
+	winston.info("Clicked: Register");
+	console.log("inside Mongo signup register");
+	//console.log(req);
+
+	var emailId = req.param('inputemail');
+	reenteredemail=req.param('inputreenteredemail');
+	password=req.param('inputpassword');
+	firstName=req.param('inputfirstName');
+	lastName=req.param('inputlastName');
+
+	console.log(emailId+reenteredemail+password+firstName+lastName);
+
+	var salt = "theSECRETString";
+	password = crypto.createHash('sha512').update(password + salt).digest("hex");
+
+	
+	console.log(password);
+
+
+	mongo.connect(mongoURL, function(){
+	console.log('Connected to mongo at: ' + mongoURL);
+	var coll = mongo.collection('users');
+
+	coll.insert({email:emailId,password:password,firstName:firstName, lastName: lastName}, function(err,user){
+
+			if(user)
+			{
+			console.log("registered: "+user.email);
+			console.log(user);
+			res.send("OK");
+			}
+			else
+				console.log(err);
+
+		})
+});
+
 
 }

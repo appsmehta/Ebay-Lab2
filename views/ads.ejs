@@ -85,9 +85,9 @@
 							<h4>{{AuctionItem.item_name}}</h4><br>
 							<b>{{AuctionItem.item_description}}</b><br>
 							<b> Sold By: </b>{{AuctionItem.seller_name}}<br>
-							<b> Cost: </b> {{Auction_item.item_price}}<br>
+							<b> Cost: </b> {{AuctionItem.item_price}}<br>
 							<b> Posted At: </b>{{AuctionItem.posted_at  | date : 'medium'}}<br>
-							<b> Expires: </b> {{AuctionItem.expires | date :'medium'}}<br>
+							<b> Expires: </b> {{AuctionItem.expires_at | date :'medium'}}<br>
 							<b> Leading bid : </b>{{highestbids[$index].bid_amount}}$ by {{highestbids[$index].bidder}}<br>
 							Bid Amount: <input class="form-control input" type="number" ng-model="bidAmount"/>
 							<button type="button" class="btn btn-info" ng-click="registerBid(AuctionItem,bidAmount)"> Bid Now! </button>

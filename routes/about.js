@@ -5,8 +5,10 @@ var ejs = require('ejs');
 var mysql = require('./mysql');
 var auctions = require('./adM');
 require("client-sessions");
+var mongo = require("./mongo");
+var mongoURL = "mongodb://localhost:27017/login";
 var winston = require('../log.js');
-exports.about = function (req,res){
+var about = function (req,res){
 	if(req.session.username!=undefined){
 
 		winston.info("Clicked About profile");
@@ -22,7 +24,7 @@ else {
 }
 }
 
-exports.getProfile = function (req,res){
+var getProfile = function (req,res){
 
 
 	if(req.session.username!=undefined)
@@ -53,7 +55,7 @@ exports.getProfile = function (req,res){
 	}
 }
 
-exports.updateProfile = function (req,res){
+var updateProfile = function (req,res){
 
 
 		winston.info("Clicked :Update Profile");
@@ -90,7 +92,7 @@ exports.updateProfile = function (req,res){
 }
 
 
-exports.getBoughtItems = function (req,res){
+var getBoughtItems = function (req,res){
 
 	winston.info("Clicked :My Orders");
 	var boughtItemQuery = "select * from orders where buyer = '"+req.session.username+"';";
@@ -122,7 +124,7 @@ exports.getBoughtItems = function (req,res){
 }
 
 
-exports.getSoldItems = function (req,res){
+var getSoldItems = function (req,res){
 
 	winston.info("Clicked :My Sold Items");
 	var soldItemQuery = "select * from orders where seller_name = '"+req.session.username+"';";
@@ -151,7 +153,7 @@ exports.getSoldItems = function (req,res){
 
 }
 
-exports.getBidResults = function(req,res){
+var getBidResults = function(req,res){
 
 	//auctions.concludeAuction();
 	winston.info("Clicked :My Bids");
@@ -184,3 +186,79 @@ exports.getBidResults = function(req,res){
 
 
 }
+
+
+var getProfileM = function (req,res){
+
+
+	if(req.session.username!=undefined)
+	{
+		console.log("inside Mongo profile fetch");
+		mongo.connect(mongoURL, function(){
+		console.log('Connected to mongo at: ' + mongoURL);
+		var coll = mongo.collection('users');
+		
+		coll.findOne({email: req.session.username}, function(err, user){
+			if (user) 
+			{
+				console.log(user);
+				res.send({"email":user.email,"firstName":user.firstName,"lastName":user.lastName,"birthday":user.birthday,"handle":user.handle,"contactinfo":user.contactinfo,"location":user.location})
+			} 
+			else {
+				throw err;
+				}
+		});		
+	
+		});
+	}
+}
+
+var updateProfileM = function (req,res){
+
+
+	winston.info("Clicked :Update Profile Mongo");
+	console.log('printing date');
+	console.log(req.body.birthday.slice(0,10));
+
+	var updatedUser = 
+	{
+		'firstName': req.body.firstName,
+		'lastName': req.body.lastName,
+		'handle' : req.body.handle,
+		'birthday':req.body.birthday.slice(0,10),
+		'contactinfo':req.body.contactinfo,
+		'location':req.body.location,
+		'email':req.body.email
+	}
+
+	mongo.connect(mongoURL, function(){
+		console.log('Connected to mongo at: ' + mongoURL);
+		var coll = mongo.collection('users');
+
+		coll.update({'email':req.session.username},{$set:updatedUser,function(err,result){
+
+						console.log(result);
+					}
+				});
+		
+	});
+
+			//res.send({"email":results[0].email,"firstName":results[0].firstName,"lastName":results[0].lastName,"birthday":results[0].birthday,"handle":results[0].handle,"contactinfo":results[0].contactinfo,"location":results[0].location})
+		
+	res.send("ok");
+
+}
+
+
+
+
+
+
+exports.about = about;
+exports.getProfile = getProfileM;
+exports.updateProfile = updateProfileM;
+exports.getBoughtItems = getBoughtItems;
+exports.getSoldItems = getSoldItems;
+exports.getBidResults = getBidResults;
+
+

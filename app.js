@@ -66,7 +66,7 @@ app.get('/getBoughtItems',aboutM.getBoughtItems);
 app.get('/getSoldItems',aboutM.getSoldItems);
 app.get('/MyBidResults',aboutM.getBidResults);
 
-app.post('/Register',register.signup);
+app.post('/Register',registerM.signup);
 app.post('/checklogin',registerM.authenticate);
 app.post('/updateAbout',aboutM.updateProfile);
 app.post('/postAd',adM.postAd);
@@ -76,6 +76,10 @@ app.post('/removeItem',adM.removeFromCart);
 app.post('/postAuction',adM.postAuction);
 app.post('/registerBid',adM.registerBid);
 app.post('/concludeAuction',adM.concludeAuction);
+
+app.use(function(req, res, next) {
+  res.status(404).send('Sorry cant find that!');
+});
 
 /*pool.createNewPool(25);
 */
