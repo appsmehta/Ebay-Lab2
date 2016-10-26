@@ -1,0 +1,66 @@
+<html>
+<head>
+<% include partials/header.ejs %>
+<script src="angularjs/index.js"></script>
+  <script src="angularjs/session.js"></script>
+  <script src="angularjs/login.js"></script>
+  <script src="angularjs/mainController.js"></script>
+<script src="angularjs/header.js"></script>
+<script src="angularjs/sell.js"></script>
+</head>
+<body ng-app="mainApp" ng-controller="SellController">
+<% include partials/top-bar.ejs %>
+
+<div class="container">
+	<div class="row">
+		<br>
+		<br>
+			<div class="jumbotron container-fluid">
+				<h3 class="text-center">Seller Home</h3>
+				
+				<div class="col-md-6 center-block">
+				<button type="button" class="btn btn-info-grey center-block" ng-click="showform()"> Post an Ad</button>
+				</div>
+				<div class="col-md-6 center-block">
+				<button type="button" class="btn btn-info-grey center-block" ng-click="showform()"> Post an Auction</button>
+				</div>
+				<br>
+
+
+
+				<div id="newAd" ng-hide="showNewAd">
+				<div class="row">
+				<br>
+				<br>
+				<br>
+				<br><br><br><br><br>
+				<div class="col-md-4">
+				</div>
+				<div class="col-md-4">
+				<div class="form-group">
+				<form>
+				  Item Name:
+				  <input type="text" name="item_name" class="form-control" ng-model="item_name"><br>
+			      Item Description:
+			      <textarea  name="item_description" class="form-control" ng-model="item_description"> </textarea><br>
+			      Item Price:
+			      <input type="text" name="item_price" class="form-control" ng-model="item_price"><br>
+			      Ad Type:
+			      <input type="radio" ng-model="adType"  value="sale">Sale
+			      <input type="radio" ng-model="adType"  value="Auction">Auction<br>
+			      <div ng-show="adType=='sale'">
+			      Item Quantity:
+			      <input type="text" name="item_quantity" class="form-control" ng-model="item_quantity"></div><br>
+			      <button type="button" class="btn btn-primary btn-block" ng-click="PostAd()">Post</button>
+			      </form>
+			      </div>
+			      </div>
+			      </div>
+			   
+				
+			</div>
+		
+	</div>
+</div>
+</body>
+</html>

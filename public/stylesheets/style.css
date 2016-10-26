@@ -1,0 +1,133 @@
+body {
+   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+   background-color: #f7f7f7;
+   font-family: "Helvetica neue",Helvetica,Arial,"sans-serif";
+   font-size: 14px;
+}
+
+  a {
+    color: rgb(26, 69, 191);
+}
+
+
+.ebay-top{
+
+	margin: 0px;
+	background-color: #D3D3D3;
+}
+
+.header-list-left  li{
+ display: inline;
+    float: left;
+    margin-left: 1%;
+    
+
+    }
+
+.tile a {
+    display: block;
+    padding: 10px;
+    
+}
+.header-list-right  li
+{
+	 display: inline;
+    float: right;
+    margin-right: 2%;
+    
+}
+.header-list-right-payment
+{
+   display: inline;
+    float: right;
+    margin-right: 2%;
+    width:53;
+    height: 35;
+    
+}
+.center-by-3{
+
+margin-right:40%;
+margin-top: 10%;
+
+}
+.ebay-header {
+	z-index: -11;
+    box-shadow: 0px 10px 2px 0px #888888;
+}
+
+.deals-box {
+
+    text-align: center;
+    text-transform: uppercase;
+    background: #fff;
+}
+
+.columns {
+  columns: 3;
+}
+.qty-box{
+        color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.spr {
+    display: block;
+    background-image: url(../img/static-icons.png)!important;
+}
+.ar {
+    background-position: 0 -75px;
+}
+.pl {
+    background-position: -95px -76px;
+}
+.sp {
+    display: inline-block!important;
+    background-repeat: no-repeat;
+    width: 30px;
+    position: relative;
+    height: 30px;
+    left: 9%;
+    bottom: -11px;
+    margin-right: 20px;
+}
+
+.payment-top
+{
+  background-color: #f7f7f7;
+  border-radius: 2px;
+  border-bottom-width: 2px;
+}
+/*input[type="text"]:valid {
+    color: green;
+}
+*/
+input[type="text"]:valid ~ .input-validation::before {
+    content: "✓";
+    color: green;
+}
+
+input[type="text"]:invalid {
+    color: red;
+}
+
+input.credit-card-field{
+
+  height:30px;
+}
+
+.text-center {
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn-info-grey {
+      color: #eeeeee;
+    background-color: #5e6567;
+    border-color: #5e6567;
+    font-size: 30px;
+
+}

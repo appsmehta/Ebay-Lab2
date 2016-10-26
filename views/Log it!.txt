@@ -1,0 +1,65 @@
+Log it!
+
+"Can I have just a bite?" Many a times at parties and buffet lunches, People often face the dilemma of whether to 
+take some of that delicious looking food or avoid it. 
+
+
+The pain points here are either absence of info such as calorific value, nutritional info and food allergy related ingredients that stop a user from 
+getting the food on their plate or the info not being digital and personal enough. After all, Who carries a paper to calculate total calories they'll have tonight for dinner? 
+
+Current Scenario: 
+
+Today, At the most, some fine-dine places would include a Paper based sign
+informing of allergy substances like nuts and the total calorific value of a meal.
+
+Still this info is not customized for a user and includes wastage of Papers in case of Catering companies having different daily menus.
+
+Proposed Scenario:
+
+Create a smart Categoring system, that allows guests just to tap their Phone near the item 
+and the NFC card will give them all the info about that dish (which is dynamic and can be updated for each party). 
+
+This system would also allow the user to Log that dish in their personal daily chart so that you can make an informed decision 
+and not go back home and regret eating that last dessert. 
+
+
+Possible enhancements to the scope can also include integration with other IOT devices like FitBit so that all the user's data can
+be gathered together with their physical activity at one place. 
+
+
+
+
+Team Tracker!
+
+Current Scenario:
+
+Ever wonder why large sports teams outperform small ones? Aren't all atheletes equal? The answer lies in Performance Analysis and smart training. 
+
+Big Sports clubs are able to have their own sports analyst teams who personally train each athelete, send them on a strict diet and monitor their physical activity. This requires a lot of financial investment and infrastructure. 
+
+Small teams cannot afford this. 
+
+Proposed Scenario: 
+
+Using Fitness IOT devices such as Jawbone, Garmin Vivofit, FitBit etc, a small team can have their own Smart Training management system to store, analyse and visualize the fitness activity data of their players with a minimal investment of ~$50 per player for the IOT device. 
+
+This web based system can allow coaches to explore player's activity and with enough data they can have their own Analytics dashboards using opensource technologies like R and Shiny to build smart dashboards for team management. 
+
+
+Smart Guide!
+
+Current Scenario:
+
+Governments and Private Tourism conversation agencies have information booths, guides and brouchers/maps to help people discover a place and enjoy it. 
+Although this is feasible for places like metros with local habitat (eg, Delhi, Agra, Mumbai etc), the same is not feasible for remote places of great tourism heritage and cultural value. (Rajasthan, Kutch, Hampi, Khajuraho, Pattadakal etc )
+
+Local people with language constraint may not sometime be able to show us around just due to lack of English. (This is especially true in Countries like India where there are UNESCO heritage sites at remote places like Kutch with low literacy rate). As a result, tourists are either disappointed or feel unsafe talking to unknown people in the fear of getting robbed off their money. 
+
+
+Proposed Scenario:
+
+Using IOT devices like Beacons, you can enjoy discovering a tourist place at your own convinience without the need to buy "Packaged Guided Tours" and also can feel free to interact with local people knowing there is not transaction of money involved in the conversation. 
+
+For governments this would be a step towards smarter governance as it is practically not possible to deploy people on payroll to remote tourism sites as being tourist guides in the middle of no-where. 
+
+The IOT based system can use Beacons/NFC tags/ QR codes to inform visitors about the significance of a cultural site. 

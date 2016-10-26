@@ -1,0 +1,65 @@
+  <div class="container">
+        <div class="row ebay-header">
+         <div class="col-md-12">
+           <span>
+           <ul class="header-list-left">
+           <span>
+            <li>
+              
+             <span> Hi! <%=username%><%if(!username) { %><a href ="/signIn">Sign in</button> </a> or <a href="/Register" class="tile">Register</a><%}%></span>
+            </li>
+            <li>
+               <a href="#"><span> Daily Deals</span></a>
+            </li>
+           </span>
+           </ul>
+           <ul class="header-list-right">
+             <span>
+             <li>
+             <%if(username) { %>
+             <a href="/logout">logout</a>
+             <%}%>
+              <li>
+              <span class="glyphicon glyphicon-shopping-cart"></span>
+              </li>
+               <li>
+               <span class="glyphicon glyphicon-bell"> </span> 
+               </li>
+               <li>
+               <a href="/about"> My Ebay</a> 
+               </li>
+          
+             </span>
+           </ul>
+          </span>
+          </div>
+          </div>
+        <br>
+      <div class="row ebay-top">
+        <div class="col-md-12" style="height:75px;">
+        <div class="table-responsive">
+       <table class="table">
+         <tbody>
+          <tr>
+            <td>
+              
+            </td>
+            <td>
+            <span>
+            <a href="/"><img src="/img/logo.png" height="15%" width="15%"></a>
+              
+            Shop by category<input type="search" class="form-control" size="100px" name="searchquery" placeholder="Search..." style="width:40%; display:inline">
+            <button class="btn btn-primary"> Search!</button></span>
+            </td>
+            
+          </tr>
+          </tbody>
+      </table>
+        </div>  
+                    
+        
+          </div>
+
+        
+      </div>
+      </div>

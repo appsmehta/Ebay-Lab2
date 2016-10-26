@@ -1,0 +1,108 @@
+<html>
+<head>
+<% include partials/header.ejs %>
+<script src="angularjs/index.js"></script>
+  <script src="angularjs/session.js"></script>
+  <script src="angularjs/login.js"></script>
+  <script src="angularjs/mainController.js"></script>
+<script src="angularjs/header.js"></script>
+<script src="angularjs/ads.js"></script>
+
+</head>
+<body ng-app="mainApp" ng-controller="adsController">
+<% include partials/top-bar.ejs %>
+
+
+<br>
+<br>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+		<h2 class="deals-box"> Featured Deals </h2>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-9">
+		<div class="jumbotron container-fluid">
+			
+				<div ng-repeat="product in items">
+				
+				<div class="col-md-4" style="height:226px;">
+
+
+							
+							<h4>{{product.item_name}}</h4><br>
+							<b>{{product.item_description}}</b><br>
+							<b> Sold By: </b>{{product.seller_name}}<br>
+							<i> Available: {{product.item_quantity}}</i><br>
+							<b> Cost: {{product.item_price}}</b><br>
+							 <label>Qty<input type="text" class="qty-box col-xs-4" name="orderQuantity" ng-model="orderQuantity"></label><br>
+							<button type="button" class="btn btn-info" ng-click="addItem(product,orderQuantity)">Add to Cart</button>
+							<br>
+							<br>
+				</div>
+				</div>
+				
+				
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="jumbotron">
+			<h3> Shopping Cart</h3>
+				<div ng-repeat="cartitem in itemsincart">
+
+						<h4>{{cartitem.item_name}}</h4><br>
+							{{cartitem.item_description}}<br>
+							{{cartitem.seller_name}}<br>
+							{{cartitem.item_price}}<br>
+							
+							Qty: {{orderedqts[$index]}}
+							Amount: {{orderedqts[$index]*cartitem.item_price}}<br>
+							<button type="button" class="btn btn-info" ng-click="removeItem($index,orderedqts[$index])">Remove from Cart</button>
+							---------------------------
+				</div>
+					<a href="/checkout" class="btn btn-primary">Proceed to Checkout</a>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<div class="row">
+	<div class="col-md-12">
+		<h2 class="deals-box"> Featured Auctions </h2>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-9">
+		<div class="jumbotron container-fluid">
+		<div ng-repeat="AuctionItem in AuctionItems">
+				
+				<div class="col-md-4" style="height:226px;">
+
+
+							
+							<h4>{{AuctionItem.item_name}}</h4><br>
+							<b>{{AuctionItem.item_description}}</b><br>
+							<b> Sold By: </b>{{AuctionItem.seller_name}}<br>
+							<b> Cost: </b> {{Auction_item.item_price}}<br>
+							<b> Posted At: </b>{{AuctionItem.posted_at  | date : 'medium'}}<br>
+							<b> Expires: </b> {{AuctionItem.expires | date :'medium'}}<br>
+							<b> Leading bid : </b>{{highestbids[$index].bid_amount}}$ by {{highestbids[$index].bidder}}<br>
+							Bid Amount: <input class="form-control input" type="number" ng-model="bidAmount"/>
+							<button type="button" class="btn btn-info" ng-click="registerBid(AuctionItem,bidAmount)"> Bid Now! </button>
+							<br>
+
+							<br>
+							<br>
+				</div>
+				</div>
+				
+				
+			</div>
+
+
+</div>
+
+</body>
+</html>

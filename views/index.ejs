@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!-- This file has been downloaded from Bootsnipp.com. Enjoy! -->
+    
+  
+    <title>Ebay MarketPlace</title>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./stylesheets/slider.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href="stylesheets/style.css" rel="stylesheet">
+  <script
+  src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+  <script src="angularjs/index.js"></script>
+  <script src="angularjs/session.js"></script>
+  <script src="angularjs/login.js"></script>
+  <script src="angularjs/mainController.js"></script>
+
+  <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+</head>
+  <body ng-app="mainApp" ng-controller="mainController">
+      <div class="container">
+        <div class="row ebay-header">
+      	 <div class="col-md-12">
+      	   <span>
+      	   <ul class="header-list-left">
+      	   <span>
+      		  <li>
+
+      			 <span> Hi! <%=username%> <%if(!username) { %><a href ="/signIn">Sign in</button> </a> or <a href="/Register" class="tile">Register</a><%}%></span>
+      		  </li>
+      		  <li>
+      			   <a href="/ads"><span> Daily Deals</span></a>
+      		  </li>
+      	   </span>
+      	   </ul>
+      	   <ul class="header-list-right">
+      	     <span>
+             <li>
+             <%if(previous_logged_in){%> <b> Last Login: <%}%> </b><%=previous_logged_in%>
+             </li>
+             <li>
+             <%if(username) { %>
+             <a href="/logout">logout</a>
+             <%}%>
+      	     	<li>
+      	     	<span class="glyphicon glyphicon-shopping-cart"></span>
+              </li>
+       		     <li>
+       		     <span class="glyphicon glyphicon-bell"> </span> 
+       		     </li>
+       		     <li>
+      			   <a href="/about"> My Ebay</a> 
+       		     </li>
+       		
+      	     </span>
+      	   </ul>
+        	</span>
+          </div>
+          </div>
+      	<br>
+    	<div class="row ebay-top">
+    		<div class="col-md-12" style="height:75px;">
+    		<div class="table-responsive">
+ 			 <table class="table">
+  			 <tbody>
+  			 	<tr>
+  			 		<td>
+  			 			
+  			 		</td>
+  			 		<td>
+  			 		<span>
+            <a href="#"><img src="/img/logo.png" height="15%" width="15%"></a>
+              
+  			 		Shop by category <input type="search" class="form-control" size="100px" name="searchquery" placeholder="Search..." style="width:40%; display:inline">
+  			 		<button class="btn btn-primary"> Search!</button></span>
+  			 		</td>
+  			 		
+   			 	</tr>
+  			 	</tbody>
+			</table>
+    		</div>	
+    		    				
+    		
+    			</div>
+
+    		
+    	</div>
+    	<div class="row ebay-main" style="height:200px;">
+    	 	<div class="col-md-12">
+    			
+          <!-- Slider courtesy : zuraiz https://codepen.io/zuraizm/pen/vGDHl -->
+
+           
+              <div id="slider">
+                <a href="#" class="control_next">>></a>
+                <a href="#" class="control_prev">
+                  <</a>
+                    <ul>
+                      <li><a href="/ads"><img src="./img/slider1.jpeg"></a></li>
+                      <li style="background: #aaa;"><a href="/ads"><img src="./img/slider2.jpeg"></a></li>
+                      <li><a href="/ads"><img src="./img/slider3.jpeg"></a></li>
+                      <li style="background: #aaa;"><a href="/ads"><img src="./img/slider4.jpeg"></a></li>
+                    </ul>
+              </div>
+
+              <!-- <div class="slider_option">
+                <input type="checkbox" id="checkbox" checked="true" ng-show="true">
+                <label for="checkbox">Autoplay Slider</label>
+              </div>
+ -->
+
+
+
+
+
+ <!-- SLider -->
+
+    		</div>
+    	</div>
+    	<div class="row" style="height:400px;">
+    		<div class="col-md-6">
+    			<!-- <h1> Main tab</h1> -->
+    		</div>
+    	</div>
+    	<div class="row" style="height:200px;">
+    		<div class="col-md-2">
+    			<h2>Home</h2>
+          <a href="/about"><h3> My Account </h3></a>
+    		</div>
+        <div class="col-md-2">
+       <a href="/ads"> <h2> Buy Items </h2></a>
+    	</div>
+      <div class="col-md-2">
+      <a href="/sell"><h2> Seller Home</h2></a>
+      </div>
+
+
+  </div>
+
+
+
+<script>
+jQuery(document).ready(function ($) {
+
+  
+    setInterval(function () {
+        moveRight();
+    }, 3500);
+
+  
+  var slideCount = $('#slider ul li').length;
+  var slideWidth = $('#slider ul li').width();
+  var slideHeight = $('#slider ul li').height();
+  var sliderUlWidth = slideCount * slideWidth;
+  
+  $('#slider').css({ width: slideWidth, height: slideHeight });
+  
+  $('#slider ul').css({ width: sliderUlWidth, marginLeft: - slideWidth });
+  
+    $('#slider ul li:last-child').prependTo('#slider ul');
+
+    function moveLeft() {
+        $('#slider ul').animate({
+            left: + slideWidth
+        }, 200, function () {
+            $('#slider ul li:last-child').prependTo('#slider ul');
+            $('#slider ul').css('left', '');
+        });
+    };
+
+    function moveRight() {
+        $('#slider ul').animate({
+            left: - slideWidth
+        }, 200, function () {
+            $('#slider ul li:first-child').appendTo('#slider ul');
+            $('#slider ul').css('left', '');
+        });
+    };
+
+    $('a.control_prev').click(function () {
+        moveLeft();
+    });
+
+    $('a.control_next').click(function () {
+        moveRight();
+    });
+
+});    
+</script>
+
+
+  </body>
+</html>

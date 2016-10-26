@@ -1,0 +1,95 @@
+<html>
+<head>
+<% include partials/header.ejs %>
+<script src="angularjs/index.js"></script>
+  <script src="angularjs/session.js"></script>
+  <script src="angularjs/login.js"></script>
+  <script src="angularjs/mainController.js"></script>
+<script src="angularjs/about.js"></script>
+<script src="angularjs/header.js"></script>
+
+</head>
+<body ng-app="mainApp" ng-controller="aboutController">
+<% include partials/top-bar.ejs %>
+
+<br>
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-md-3 jumbotron" style="height:100%">
+      <h3> <button type="button btn-info-grey" ng-click="showAbout()"> My Profile </h3>
+      <h3> <button type="button btn-info-grey" ng-click="showBoughtItems()">My Orders</button> </h3>
+      <h3> <button type="button btn-info-grey" ng-click="showSoldItems()">My Sold Items</button> <h3>
+      <h3> <button type="button btn-info-grey" ng-click="showBids()"> My Bids </button></h3>
+    </div>
+    <div class="col-md-8 jumbotron" style="background-color:#FFFFFF">
+      <div id="aboutprofile" ng-show="showAbout">
+      <div class="form-group">
+    <form action="updateProfile" method="POST">
+      Email:
+      <input type="text" name="email" class="form-control" ng-model="aEmail" readonly><br>
+      First Name:
+      <input type="text" name="firstName" class="form-control" ng-model="afirstName"><br>
+      Last Name:
+      <input type="text" name="lastName" class="form-control" ng-model="alastName"><br>
+      Ebay Handle:
+      <input type="text" name="handle" class="form-control" ng-model="ahandle"><br>
+      Birthday:
+      <input type="date" name="birthday" class="form-control" ng-model="abday"><br>
+      Contact Info
+      <input type="text" name="contactinfo" class="form-control" ng-model="acontact"><br>
+      Location
+      <input type="text" name="Location" class="form-control" ng-model="alocation"><br>
+
+      <button type="button" class="btn btn-primary btn-block" ng-click="updateAbout()">Update</button>
+
+      </form>
+      </div>
+      </div>
+
+      <div id="BoughtItems" ng-show="showBought">
+
+        <h3> My Bought Items </h3>
+        <div ng-repeat="boughtItem in boughtItems">
+        
+           <h4>Item Name: {{boughtItem.item_name}}</h4>
+            <b>Quantity:{{boughtItem.qty}}</b><br>
+            <b>Cost:{{boughtItem.cost}}</b><br>
+            <b>Sold By:{{boughtItem.seller_name}}</b><br>
+          </div>
+      </div>
+
+      <div id="SoldItems" ng-show="showSold">
+
+        <h3> My Sold Items </h3>
+        <div ng-repeat="soldItem in soldItems">
+
+          <h4> Item Name: {{soldItem.item_name}}</h4>
+          <b>Quantity : {{soldItem.qty}}</b><br>
+          <b>Amount: {{soldItem.cost}}</b><br>
+          <b>Buyer: {{soldItem.buyer}}</b><br>
+
+          </div>
+      </div>
+
+
+      <div id="MyBids" ng-show="showBids">
+        <h3> My Bids </h3><br><br>
+        <div ng-repeat="bid in MyBids">
+          <h4> Item Name: {{bid.item_name}}</h4>
+          <b> Bid Amount:</b>{{bid.bid_amount}}<br>
+          <b> Bid Time:</b> {{bid.bid_time | date}}<br>
+           Bid Status:<b> {{bid.bid_status}}</b><br><br>
+      </div>
+
+
+
+
+    </div>
+  </div>
+</div>	
+
+
+
+</body>
+</html>
