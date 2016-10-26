@@ -13,6 +13,8 @@
     "express": "3.2.6",
     "mongo": "^0.1.0",
     "mongodb": "^2.2.11",
+    "mongodb-autoincrement": "^1.0.1",
+    "mongoose": "^4.6.5",
     "mysql": "^2.11.1",
     "winston": "^2.2.0"
   }

@@ -6,7 +6,7 @@ require("client-sessions");
 var dateFormat = require('dateformat');
 var now = "2016-10-13T10:48:31.000Z";
 var winston = require('../log.js');
-
+var mUtility = require('./mUtility');
 
 const fs = require('fs');
 const env = process.env.NODE_ENV || 'development';
@@ -277,6 +277,7 @@ var postAuction = function(req,res) {
 
 exports.addtoCart = function(req,res){
 	winston.info("Clicked: Add to Cart on:"+req.body.product.item_name);
+	console.log(req.body.product);
 	req.session.cartitems.push(req.body.product);
 	req.session.cartqty.push(req.body.quantity);
 //console.log("cost for :"+req.body.product.item_name+" is:"+(req.body.product.item_price*req.body.quantity));
@@ -502,9 +503,18 @@ var postAdM = function (req,res) {
 		expires_at=expires_at.setTime(posted_at.getTime() + (4*86400000));
 		posted_at = dateFormat(posted_at, "yyyy:mm:dd HH:MM:ss");	
 		expires_at = dateFormat(expires_at, "yyyy:mm:dd HH:MM:ss");
+		counterName="counters";
+		mUtility.getNewNextSequence(counterName,function(value){
+
+
+	console.log("found next id for: "+counterName);
+	console.log(value);
+	
+
+
 		var product = 
 		{
-			'product_id': 1,
+			'product_id': value,
 			'item_name':req.body.item_name,
 			'item_description':req.body.item_description,
 			'seller_name':req.session.username,
@@ -536,9 +546,9 @@ var postAdM = function (req,res) {
 
 		});
 		});
-	}
+	});
 }
-
+}
 
 var postAuctionM = function(req,res) {
 

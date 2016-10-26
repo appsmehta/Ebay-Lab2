@@ -9931,3 +9931,109 @@
 {"level":"info","message":"Clicked:checkout","timestamp":"2016-10-26T13:08:53.504Z"}
 {"level":"info","message":"Hello world","timestamp":"2016-10-26T13:10:57.179Z"}
 {"level":"info","message":"Hello world","timestamp":"2016-10-26T13:10:59.076Z"}
+{"level":"info","message":"Clicked:Signin","timestamp":"2016-10-26T19:56:15.559Z"}
+{"level":"info","message":"Clicked: Log In","timestamp":"2016-10-26T19:56:23.962Z"}
+{"level":"info","message":"Clicked: Daily Deals","timestamp":"2016-10-26T19:56:26.547Z"}
+{"level":"info","message":"Requested Mongo all ads","timestamp":"2016-10-26T19:56:26.995Z"}
+{"level":"info","message":"Requested Mongo all auctions","timestamp":"2016-10-26T19:56:27.338Z"}
+{"level":"info","message":"Clicked: Add to Cart on:Garmin Vivofit","timestamp":"2016-10-26T19:56:42.460Z"}
+{"level":"info","message":"Clicked:checkout","timestamp":"2016-10-26T19:56:44.893Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T19:59:37.357Z"}
+{"level":"info","message":"Clicked: Daily Deals","timestamp":"2016-10-26T19:59:46.737Z"}
+{"level":"info","message":"Requested Mongo all ads","timestamp":"2016-10-26T19:59:47.165Z"}
+{"level":"info","message":"Requested Mongo all auctions","timestamp":"2016-10-26T19:59:47.172Z"}
+{"level":"info","message":"Clicked: Remove from Cart on:undefined","timestamp":"2016-10-26T19:59:50.591Z"}
+{"level":"info","message":"Clicked: Daily Deals","timestamp":"2016-10-26T19:59:59.023Z"}
+{"level":"info","message":"Requested Mongo all ads","timestamp":"2016-10-26T19:59:59.444Z"}
+{"level":"info","message":"Requested Mongo all auctions","timestamp":"2016-10-26T19:59:59.447Z"}
+{"level":"info","message":"Clicked: Add to Cart on:FitBit Charge 2","timestamp":"2016-10-26T20:00:07.597Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T20:02:58.456Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T20:04:28.941Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T20:14:29.976Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T20:14:45.667Z"}
+{"level":"info","message":"Clicked: Daily Deals","timestamp":"2016-10-26T20:14:54.740Z"}
+{"level":"info","message":"Requested Mongo all ads","timestamp":"2016-10-26T20:14:55.331Z"}
+{"level":"info","message":"Requested Mongo all auctions","timestamp":"2016-10-26T20:14:55.336Z"}
+{"level":"info","message":"Clicked: Daily Deals","timestamp":"2016-10-26T20:14:56.685Z"}
+{"level":"info","message":"Requested Mongo all ads","timestamp":"2016-10-26T20:14:57.098Z"}
+{"level":"info","message":"Requested Mongo all auctions","timestamp":"2016-10-26T20:14:57.102Z"}
+{"level":"info","message":"Clicked: Remove from Cart on:undefined","timestamp":"2016-10-26T20:15:00.767Z"}
+{"level":"info","message":"Clicked: Daily Deals","timestamp":"2016-10-26T20:15:02.797Z"}
+{"level":"info","message":"Requested Mongo all ads","timestamp":"2016-10-26T20:15:03.189Z"}
+{"level":"info","message":"Requested Mongo all auctions","timestamp":"2016-10-26T20:15:03.191Z"}
+{"level":"info","message":"Clicked: Add to Cart on:FitBit Charge 2","timestamp":"2016-10-26T20:15:09.074Z"}
+{"level":"info","message":"Clicked:checkout","timestamp":"2016-10-26T20:15:12.983Z"}
+{"level":"info","message":"Clicked: Mongo PayNow","timestamp":"2016-10-26T20:15:31.908Z"}
+{"level":"info","message":"Clicked: Mongo PayNow","timestamp":"2016-10-26T20:16:38.559Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T20:29:01.069Z"}
+{"level":"info","message":"Clicked:checkout","timestamp":"2016-10-26T20:29:04.309Z"}
+{"level":"info","message":"Clicked:Signin","timestamp":"2016-10-26T20:29:06.809Z"}
+{"level":"info","message":"Clicked: Log In","timestamp":"2016-10-26T20:29:16.284Z"}
+{"level":"info","message":"Clicked: Daily Deals","timestamp":"2016-10-26T20:29:19.349Z"}
+{"level":"info","message":"Requested Mongo all ads","timestamp":"2016-10-26T20:29:19.799Z"}
+{"level":"info","message":"Requested Mongo all auctions","timestamp":"2016-10-26T20:29:19.804Z"}
+{"level":"info","message":"Clicked: Add to Cart on:FitBit Charge 2","timestamp":"2016-10-26T20:29:26.941Z"}
+{"level":"info","message":"Clicked:checkout","timestamp":"2016-10-26T20:29:29.137Z"}
+{"level":"info","message":"Clicked: Mongo PayNow","timestamp":"2016-10-26T20:29:44.372Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T20:32:28.174Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T20:32:35.854Z"}
+{"level":"info","message":"Clicked:checkout","timestamp":"2016-10-26T20:32:40.136Z"}
+{"level":"info","message":"Clicked: Mongo PayNow","timestamp":"2016-10-26T20:32:55.156Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T20:42:34.226Z"}
+{"level":"info","message":"Clicked:checkout","timestamp":"2016-10-26T20:42:43.445Z"}
+{"level":"info","message":"Clicked:checkout","timestamp":"2016-10-26T20:42:45.455Z"}
+{"level":"info","message":"Clicked: Mongo PayNow","timestamp":"2016-10-26T20:43:06.517Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:24:39.593Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:29:07.772Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:30:29.334Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:31:08.288Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:31:43.597Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:31:51.946Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:38:34.340Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:38:59.112Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:39:35.641Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:44:00.425Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:44:07.963Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:45:16.756Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:45:44.729Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:45:46.712Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:46:31.932Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:46:36.738Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:47:20.219Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:48:16.041Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:50:21.586Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:50:59.413Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:51:23.956Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:51:25.592Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:52:31.087Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:52:35.488Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:52:47.965Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:53:19.752Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:54:26.739Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T21:58:26.832Z"}
+{"level":"info","message":"Clicked:Signin","timestamp":"2016-10-26T21:58:44.623Z"}
+{"level":"info","message":"Clicked: Log In","timestamp":"2016-10-26T21:58:51.290Z"}
+{"level":"info","message":"Clicked: Mongo Post Ad","timestamp":"2016-10-26T21:59:15.905Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T22:00:03.597Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T22:00:32.805Z"}
+{"level":"info","message":"Clicked: Mongo Post Ad","timestamp":"2016-10-26T22:02:39.010Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T22:03:15.137Z"}
+{"level":"info","message":"Clicked: Mongo Post Ad","timestamp":"2016-10-26T22:03:56.809Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T22:05:01.434Z"}
+{"level":"info","message":"Clicked: Mongo Post Ad","timestamp":"2016-10-26T22:05:33.803Z"}
+{"level":"info","message":"Clicked: Mongo Post Ad","timestamp":"2016-10-26T22:06:44.453Z"}
+{"level":"info","message":"Clicked: Mongo Post Ad","timestamp":"2016-10-26T22:07:02.462Z"}
+{"level":"info","message":"Clicked: Daily Deals","timestamp":"2016-10-26T22:07:13.226Z"}
+{"level":"info","message":"Requested Mongo all ads","timestamp":"2016-10-26T22:07:13.473Z"}
+{"level":"info","message":"Requested Mongo all auctions","timestamp":"2016-10-26T22:07:13.512Z"}
+{"level":"info","message":"Clicked: Daily Deals","timestamp":"2016-10-26T22:08:22.959Z"}
+{"level":"info","message":"Requested Mongo all ads","timestamp":"2016-10-26T22:08:23.225Z"}
+{"level":"info","message":"Requested Mongo all auctions","timestamp":"2016-10-26T22:08:23.227Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T22:09:12.947Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-10-26T22:09:30.522Z"}
+{"level":"info","message":"Clicked: Daily Deals","timestamp":"2016-10-26T22:10:08.953Z"}
+{"level":"info","message":"Requested Mongo all ads","timestamp":"2016-10-26T22:10:09.303Z"}
+{"level":"info","message":"Requested Mongo all auctions","timestamp":"2016-10-26T22:10:09.308Z"}
+{"level":"info","message":"Clicked: Add to Cart on:Test","timestamp":"2016-10-26T22:10:14.633Z"}
+{"level":"info","message":"Clicked:checkout","timestamp":"2016-10-26T22:10:16.322Z"}
+{"level":"info","message":"Clicked: Mongo PayNow","timestamp":"2016-10-26T22:10:32.118Z"}

@@ -1,8 +1,10 @@
 var winston = require('../log.js');
 var ejs = require("ejs");
 var mysql = require('./mysql');
+var mongo = require("./mongo");
+var mongoURL = "mongodb://localhost:27017/login";
 
-exports.validate = function (req,res){
+var validate = function (req,res){
 
 	winston.info("Clicked:PayNow");
 	
@@ -139,3 +141,102 @@ exports.validate = function (req,res){
 		
 	
 }
+
+
+var validateM = function (req,res){
+
+	winston.info("Clicked: Mongo PayNow");
+	
+	console.log(req.body);
+	var allValid=false;
+	var validations=[];
+	var DateValid = false, cvvValid = false,NumberValid=false;
+	var cardName = req.param("username");
+	var cardNumber = req.param("number");
+	var expiry_month = parseInt(req.body.expiry_month);
+	var expiry_year = parseInt(req.body.expiry_year);
+	var cvv = parseInt(req.body.password_cvv);
+	console.log("Expires : "+expiry_month+expiry_year);
+	if(cardNumber.length==16)
+		{
+		NumberValid=true;
+		}
+	else
+		{
+		console.log("Not valid number");
+		validations.push({"field":"Invalid Card Number"});
+		}
+	if(expiry_year>16)
+		{
+		console.log("future year valid");
+		DateValid=true;
+		}
+	else if(expiry_year==16&&expiry_month>=(new Date().getMonth()))
+		{
+		console.log("current year valid");
+		DateValid=true;
+		}
+	else
+		{
+		
+		validations.push({"field":"Invalid Expiry Date"});
+		}
+	//data [0] = DateValid;
+	
+	
+	if(cvv>0&&cvv<1000)
+		{
+		console.log("cvv valid");
+		
+		cvvValid=true;
+		}
+	else{
+	
+		validations.push({"field":"Invalid CVV"});
+	}
+	
+	
+	if(DateValid&&cvvValid)
+		{
+		
+
+		console.log(req.session.cartitems);
+		console.log(req.session.cartqty);
+        
+        for(item in req.session.cartitems)
+        	{
+        		console.log(req.session.cartitems[item]);
+
+        		var orderedItem = req.session.cartitems[item];
+        		mongo.connect(mongoURL, function(){
+				console.log('Connected to mongo at: ' + mongoURL);
+				var coll = mongo.collection('products');
+
+				coll.update({product_id:orderedItem.product_id},{
+					$push: {
+						'orders': {
+								'buyer': req.session.username,
+								'quantity':orderedItem.item_quantity
+						        }
+					      }
+				});
+        	});
+        }
+
+
+		res.json({"StatusCode":200});
+		res.end();
+	}
+	
+	else
+		{
+		console.log("invalid");
+		res.status(500).json({data:validations});
+		res.end();
+	    }
+		
+	
+}
+
+
+exports.validate = validateM;
