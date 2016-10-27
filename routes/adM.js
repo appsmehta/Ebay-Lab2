@@ -341,7 +341,7 @@ exports.sellHome = function(req,res){
 
 }
 
-exports.registerBid = function(req,res){
+var registerBid = function(req,res){
 
 	logger.info("User:"+req.session.username+" bid for "+req.body.Auctionitem.item_name+ "item id:"+req.body.Auctionitem.auction_id+" Amount:"+req.body.bidAmount);	
 
@@ -561,9 +561,12 @@ var postAuctionM = function(req,res) {
 		expires_at=expires_at.setTime(posted_at.getTime() + (4*86400000));
 		posted_at = dateFormat(posted_at, "yyyy:mm:dd HH:MM:ss");	
 		expires_at = dateFormat(expires_at, "yyyy:mm:dd HH:MM:ss");
+		counterName="counters";
+		mUtility.getNewNextSequence(counterName,function(value){
+
 		var product = 
 		{
-			'product_id': 2,
+			'product_id': value,
 			'item_name':req.body.item_name,
 			'item_description':req.body.item_description,
 			'seller_name':req.session.username,
@@ -595,6 +598,7 @@ var postAuctionM = function(req,res) {
 
 		});
 		});
+	});
 	}
 
 var getAdsM = function(req,res) {
@@ -643,7 +647,20 @@ var getAuctionsM = function(req,res) {
 
 		coll.find({sale_type:'Auction',expires_at:{$gt:now}}).toArray(function(err,auctions){
 
+			var highestbids = [];
 			console.log(auctions);
+
+			for(item in auctions){
+
+
+				if(auctions[item].bids[0])
+					{
+						highestbids[item]=auctions[item].bids[0]
+						console.log("found bid");
+						console.log(auctions[item].bids[0]);
+					}
+			}
+
 			res.json({'auctions':auctions});
 
 			});
@@ -657,9 +674,69 @@ var getAuctionsM = function(req,res) {
 
 }
 
+var registerBidM = function(req,res){
+
+	logger.info("User:"+req.session.username+" bid for "+req.body.Auctionitem.item_name+ "item id:"+req.body.Auctionitem.auction_id+" Amount:"+req.body.bidAmount);	
+
+	console.log("Bid to server for:"+req.body.Auctionitem.item_name+" worth $: "+req.body.bidAmount);
+
+	console.log(req.body.Auctionitem.auction_id + " "+ req.session.username + " "+ req.body.bidAmount + " "+ "active");
+	counterName="bidcounters";
+		mUtility.getNewNextSequence(counterName,function(value){
+			var now = new Date();
+				console.log(now);
+				var mydate = dateFormat(now, "yyyy:mm:dd HH:MM:ss");
+
+	mongo.connect(mongoURL, function(){
+				console.log('Connected to mongo at: ' + mongoURL);
+				var coll = mongo.collection('products');
+				//var updatedQuantity = orderedItem.item_quantity - req.session.cartqty[item];
+				//console.log("updated Quantity:"+updatedQuantity);
+
+				coll.update({product_id:req.body.Auctionitem.product_id},{
+					$push: {
+						'bids': {
+								'bid_id':value,
+								'bidder': req.session.username,
+								'bid_amount': req.body.bidAmount,
+								'bid_time': mydate
+					        }
+					      }
+				});
+			});
+      });
+
+	/*var insertBidQuery = "Insert into bids (`auction_id`,`bidder`,`bid_amount`,`bid_status`) values ('"+req.body.Auctionitem.auction_id+"','"+ req.session.username +"','"+ req.body.bidAmount+"','active');";
+
+	mysql.storeData(function(err,results){
+		if(err){
+			res.json({"statusCode":500})
+			throw err;
+		}
+		else 
+		{
+			if(results.length > 0){
+
+				console.log(results[0]);
+
+				res.json({ user: 'tobi' })
+				res.end();
+			}
+			else {
+			}
+
+		}
+
+	},insertBidQuery);*/
+
+
+
+
+}
 
 
 exports.getAuctions= getAuctionsM;
 exports.postAd = postAdM;
 exports.postAuction = postAuctionM;
 exports.getAds = getAdsM;
+exports.registerBid = registerBidM;

@@ -249,6 +249,68 @@ var updateProfileM = function (req,res){
 
 }
 
+var getBoughtItemsM = function (req,res){
+
+	winston.info("Clicked :Mongo My Orders");
+	
+		mongo.connect(mongoURL, function(){
+		console.log('Connected to mongo at: ' + mongoURL);
+		var coll = mongo.collection('products');
+
+	
+		coll.aggregate([
+							    // Get just the docs that contain a shapes element where color is 'red'
+							    {$match: {'orders.buyer': req.session.username}},
+							    {$project: {
+							        item_name:1,
+							        seller_name:1,
+							        item_price:1,
+							        orders: {$filter: {
+							            input: '$orders',
+							            as: 'order',
+							            cond: {$eq: ['$$order.buyer', req.session.username]}
+							        }},
+							        _id: 0
+							    }}
+]).toArray(function(err,sales){
+
+			var myshopping = []
+
+			for(boughtProduct in sales){
+				console.log(sales[boughtProduct].item_name);
+				console.log(sales[boughtProduct].orders.length);
+
+				for(var j=0;j<sales[boughtProduct].orders.length;j++){
+
+					item = {
+							'item_name' : sales[boughtProduct].item_name,
+							'item_price': sales[boughtProduct].item_price,
+							'seller_name':sales[boughtProduct].seller_name,
+							'Qty':sales[boughtProduct].orders[j].quantity
+							
+						}
+
+					myshopping.push(item);
+				}
+
+			}
+
+			console.log(myshopping);
+			res.send({"data":myshopping});
+			//res.json({'ads':sales,"itemsincart":req.session.cartitems,"orderedquantities":req.session.cartqty});
+
+			});
+		});
+
+		
+
+			//res.send({"data":results});
+		
+
+
+		
+
+}
 
 
 
@@ -257,7 +319,7 @@ var updateProfileM = function (req,res){
 exports.about = about;
 exports.getProfile = getProfileM;
 exports.updateProfile = updateProfileM;
-exports.getBoughtItems = getBoughtItems;
+exports.getBoughtItems = getBoughtItemsM;
 exports.getSoldItems = getSoldItems;
 exports.getBidResults = getBidResults;
 

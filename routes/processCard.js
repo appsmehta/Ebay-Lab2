@@ -211,14 +211,25 @@ var validateM = function (req,res){
         		mongo.connect(mongoURL, function(){
 				console.log('Connected to mongo at: ' + mongoURL);
 				var coll = mongo.collection('products');
+				var updatedQuantity = orderedItem.item_quantity - req.session.cartqty[item];
+				console.log("updated Quantity:"+updatedQuantity);
 
 				coll.update({product_id:orderedItem.product_id},{
 					$push: {
 						'orders': {
 								'buyer': req.session.username,
-								'quantity':orderedItem.item_quantity
+								'quantity': req.session.cartqty[item]
 						        }
 					      }
+				});
+
+				coll.update({product_id:orderedItem.product_id},{
+
+					$set: {
+
+						item_quantity:updatedQuantity 
+					}
+
 				});
         	});
         }
