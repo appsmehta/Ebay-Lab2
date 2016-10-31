@@ -259,7 +259,7 @@ var getBoughtItemsM = function (req,res){
 
 	
 		coll.aggregate([
-							    // Get just the docs that contain a shapes element where color is 'red'
+							    
 							    {$match: {'orders.buyer': req.session.username}},
 							    {$project: {
 							        item_name:1,
@@ -297,20 +297,77 @@ var getBoughtItemsM = function (req,res){
 
 			console.log(myshopping);
 			res.send({"data":myshopping});
-			//res.json({'ads':sales,"itemsincart":req.session.cartitems,"orderedquantities":req.session.cartqty});
-
+			
 			});
 		});
 
-		
-
-			//res.send({"data":results});
-		
-
-
-		
-
 }
+var getSoldItemsM = function (req,res){
+
+	winston.info("Clicked : Mongo My Sold Items");
+
+		mongo.connect(mongoURL, function(){
+		console.log('Connected to mongo at: ' + mongoURL);
+		var coll = mongo.collection('products');
+
+		coll.find( { $where: "this.orders.length > 1" , 'seller_name': req.session.username} ).toArray(function(err,sales){
+			var myshopping = []
+
+			console.log("Items Sold by:"+req.session.username);
+
+			for(sale in sales)
+			{
+				for (order in sales[sale].orders)
+				{
+					console.log("Order for :"+sales[sale].item_name);
+					console.log(sales[sale].orders[order].buyer + "bought :"+sales[sale].orders[order].quantity +" Sale Amount:"+(sales[sale].orders[order].quantity*sales[sale].item_price));
+					
+					item = {
+							'item_name' :sales[sale].item_name,
+							'buyer': sales[sale].orders[order].buyer,
+							'cost':(sales[sale].orders[order].quantity*sales[sale].item_price),
+							'qty':sales[sale].orders[order].quantity
+							
+						}
+
+						myshopping.push(item);
+
+				}
+
+			}
+
+			res.send({"data":myshopping});
+
+
+		});
+	});
+	}
+
+
+/*	var soldItemQuery = "select * from orders where seller_name = '"+req.session.username+"';";
+
+	mysql.fetchData(function(err,results){
+
+			if(err){
+			throw err;
+			}
+		else 
+		{
+			if(results.length > 0){
+
+			console.log(results[0]);
+
+			res.send({"data":results});
+				}
+	 		else {
+	 			 }
+
+		}
+
+		},soldItemQuery);*/
+
+
+
 
 
 
@@ -320,7 +377,7 @@ exports.about = about;
 exports.getProfile = getProfileM;
 exports.updateProfile = updateProfileM;
 exports.getBoughtItems = getBoughtItemsM;
-exports.getSoldItems = getSoldItems;
+exports.getSoldItems = getSoldItemsM;
 exports.getBidResults = getBidResults;
 
 
