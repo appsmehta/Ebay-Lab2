@@ -21,19 +21,23 @@ var express = require('express')
 
   //URL for the sessions collections in mongoDB
 var mongoSessionConnectURL = "mongodb://localhost:27017/login";
-//var expressSession = require("express-session");
-//var mongoStore = require("connect-mongo")(expressSession);
+var expressSession = require("express-session");
+var mongoStore = require("connect-mongo")(expressSession);
 var mongo = require("./routes/mongo");
   
 var app = express();
 
 // all environments
-app.use(session({   
-	  
-	cookieName:'session',    
-	secret: 'mystring',    
-	duration: 30 * 60 * 1000,    //setting the time for active session
-	activeDuration: 5 * 60 * 1000,  }));
+app.use(expressSession({
+  secret: 'cmpe273_teststring',
+  resave: false,  //don't save session if unmodified
+  saveUninitialized: false, // don't create session until something stored
+  duration: 30 * 60 * 1000,    
+  activeDuration: 5 * 60 * 1000,
+  store: new mongoStore({
+    url: mongoSessionConnectURL
+  })
+}));
 app.set('port', process.env.PORT || 3050);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
@@ -67,7 +71,7 @@ app.get('/getSoldItems',aboutM.getSoldItems);
 app.get('/MyBidResults',aboutM.getBidResults);
 
 app.post('/Register',registerM.signup);
-app.post('/checklogin',registerM.authenticate);
+app.post('/checklogin',registerM.authenticateP);
 app.post('/updateAbout',aboutM.updateProfile);
 app.post('/postAd',adM.postAd);
 app.post('/addItem',adM.addtoCart);

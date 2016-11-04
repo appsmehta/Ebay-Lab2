@@ -69,12 +69,13 @@ mainApp.controller('loginController', function($scope, $http,$window,$location,s
 			}
 		}).success(function(data){
 			//alert("Inside success");
-			//alert(data);
-			if(data.statusCode=='200')
+			alert("Registerd successfully");
+			window.location.assign('/');
+			/*if(data.statusCode=='200')
 			{
 				sessionservice.setuserdetails(data.username);
 				window.location.assign('/');
-			}
+			}*/
 			//var landingUrl =   $window.location.host+"/";
         //alert(landingUrl);
       // window.location.assign('/');

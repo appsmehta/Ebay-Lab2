@@ -1,6 +1,6 @@
 var dateFormat = require('dateformat');
 var mUtility = require('./mUtility');
-exports.getNextId = function (counterName,callback) {
+function myfunction(counterName) {
 
 /*var posted_at = new Date();
 		var expires_at = new Date();
@@ -15,9 +15,8 @@ mUtility.getNewNextSequence(counterName,function(value){
 
 	console.log("found next product: ");
 	console.log(value);
-	callback(value);
 });
 }
 
 //myfunction("counters");
-//myfunction("ordercounter");
+myfunction("ordercounter");
