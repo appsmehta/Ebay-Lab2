@@ -7,6 +7,7 @@ var dateFormat = require('dateformat');
 var now = "2016-10-13T10:48:31.000Z";
 var winston = require('../log.js');
 var mUtility = require('./mUtility');
+var mq_client = require('../rpc/client');
 
 const fs = require('fs');
 const env = process.env.NODE_ENV || 'development';
@@ -30,263 +31,24 @@ const logger = new (winston.Logger)({
 
 
 exports.ad = function(req,res) {
-
 	winston.info("Clicked: Daily Deals");
 	if(req.session.username!=undefined)
 	{	res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
 		res.render("ads",{"username":req.session.username});
 	}
-
 	else
-
 	{
 		res.redirect('/')
 	}
-
-
-
 }
-
-var getAds = function(req,res) {
-
-
-
-	if(req.session.username!=undefined)
-	{
-		winston.info("Requested all ads");
-
-		var getAdquery = "select * from advertisements";
-		console.log("Query is:"+getAdquery);
-
-		mysql.fetchData(function(err,results){
-			if(err){
-				throw err;
-			}
-			else 
-			{
-				if(results.length > 0){
-
-					console.log(results[0]);
-
-					res.json({'ads':results,"itemsincart":req.session.cartitems,"orderedquantities":req.session.cartqty});
-				}
-				else {
-				}
-
-			}
-
-		},getAdquery);
-
-
-	}
-
-	else {
-
-		res.json({"logged-in":"false"})
-	}
-
-}
-
-var getAuctions = function(req,res){
-
-	winston.info("Requested all auctions");
-	console.log("Trying dateformat");
-
-	console.log(dateFormat(now, "fullDate"));
-
-
-
-		/*if(req.session.username!=undefined)
-		{*/
-
-			var getAuctionquery = "select * from auctions where status='in-progress' AND expires >= NOW()";
-			console.log("Query is:"+getAuctionquery);
-				//var highestbids = [];
-
-				mysql.fetchData(function(err,results){
-					if(err){
-						throw err;
-					}
-					else 
-					{
-						if(results.length > 0){
-
-							console.log("first callback result " + results[0]);
-
-							console.log("calling the bids function");
-							getHighestBids(results, function(highestbids){
-								for (var result in results)
-								{
-									console.log("result is " + result);
-									console.log("GOt the highest bid for :"+results[result].item_name+" as $:"+highestbids[result]);
-
-								}
-								console.log("sent json");
-								res.json({'auctions':results,'highestbids':highestbids});	
-
-							});
-
-
-						/*for (var result in results)
-
-						{	
-							console.log("Before querying highest bid for:"+results[result].item_name);
-
-							console.log("for "+results[result].item_name+" auction id is :"+results[result].auction_id);
-							var getHighestBidQuery = "select * from bids where bid_amount = (select max(bid_amount) from bids where auction_id = '"+results[result].auction_id+"');";
-
-
-									mysql.fetchData(function(error,bidresults){
-										if(err){
-											throw err;
-											}
-										else 
-										{
-											if(bidresults.length > 0){
-
-										        	console.log(JSON.stringify(results[result]));
-										        	highestbids[result] = bidresults[0]; 
-										       
-										        	//console.log("For Item:"+results[result].item_name +" highest bid is :"+highestbids[result].bid_amount);
-											
-												}
-									 		else {
-
-									 				console.log("Bidding else of "+results[result].item_name);
-									 			 }
-
-										}
-
-										},getHighestBidQuery);
-
-
-
-						}
-
-						for (result in results)
-						{
-							
-							//console.log("For Item:"+results[result].item_name +" highest bid is :"+highestbids[result].bid_amount);
-							console.log(JSON.stringify(highestbids[result]));
-						}*/
-
-
-
-
-
-					}
-					else {
-					}
-
-				}
-
-			},getAuctionquery);
-
-
-		/*}
-
-		else {
-
-			res.json({"logged-in":"false"})
-		}*/
-
-
-
-
-	}
-
-
-var postAd = function (req,res) {
-
-
-	//if(req.session.username!=undefined)
-	{
-		console.log(req.body.item_quantity);
-
-		winston.info("Clicked:Post Ad");
-
-		var postAdquery = "insert into advertisements (`item_name`, `item_description`, `seller_name`, `item_price`, `item_quantity`) values ('"+req.body.item_name+"','"+req.body.item_description+"','"+req.session.username+"','"+req.body.item_price+"','"+req.body.item_quantity+"');";
-		console.log("Query is:"+postAdquery);
-
-		mysql.storeData(function(err,results){
-			if(err){
-				res.json({"statusCode":500})
-				throw err;
-			}
-			else 
-			{
-				if(results.length > 0){
-
-					console.log(results[0]);
-
-					res.json({ user: 'tobi' })
-					res.end();
-				}
-				else {
-				}
-
-			}
-
-		},postAdquery);
-	}
-}
-
-
-var postAuction = function(req,res) {
-
-	winston.info("Clicked:Post Auction");
-	var expirydate = new Date();
-	expirydate.setDate(expirydate.getDate() + 4);
-	console.log(expirydate);
-	expirydate=dateFormat(expirydate,"yyyy-mm-dd HH:MM:ss");
-	console.log("expires:"+expirydate);
-
-	var postAuctionQuery = "insert into auctions(`item_name`, `item_description`, `seller_name`, `item_price`,`status`,`expires`) values ('"+req.body.item_name+"','"+req.body.item_description+"','"+req.session.username+"','"+req.body.item_price+"','in-progress','"+expirydate+"');";
-	console.log("Query is:"+postAuctionQuery);
-
-	//INSERT INTO `ebay_schema`.`auctions` (`item_name`, `item_description`, `seller_name`, `item_price`, `status`) VALUES ('Auction1', 'Item2', 'apoorvmehta@sjsu.edu', '200', 'in-progress');
-
-	mysql.storeData(function(err,results){
-		if(err){
-			res.json({"statusCode":500})
-			throw err;
-		}
-		else 
-		{
-			if(results.length > 0){
-
-				console.log(results[0]);
-
-				res.json({ user: 'tobi' })
-				res.end();
-			}
-			else {
-			}
-
-		}
-
-	},postAuctionQuery);
-
-
-
-}
-
-
-
-
 
 exports.addtoCart = function(req,res){
 	winston.info("Clicked: Add to Cart on:"+req.body.product.item_name);
 	console.log(req.body.product);
 	req.session.cartitems.push(req.body.product);
 	req.session.cartqty.push(req.body.quantity);
-//console.log("cost for :"+req.body.product.item_name+" is:"+(req.body.product.item_price*req.body.quantity));
-req.session.checkoutAmount = req.session.checkoutAmount + (req.body.product.item_price*req.body.quantity)
-//console.log(req.body.product+"ordered quantity"+req.body.quantity);
-	//console.log(req.session.cartitems);
+	req.session.checkoutAmount = req.session.checkoutAmount + (req.body.product.item_price*req.body.quantity)
 	res.json({statusCode:200,"itemsincart":req.session.cartitems,"orderedquantities":req.session.cartqty});
-
-
 }
 
 exports.removeFromCart = function(req,res){
@@ -294,93 +56,26 @@ winston.info("Clicked: Remove from Cart on:"+req.body.product.item_name);
 	console.log("remove cart called");
 	console.log(req.body.product+" and quantity"+req.body.qty);
 	console.log(req.session.cartitems[req.body.product]);
-
 	console.log("removing");
-
 	req.session.cartitems.splice(req.body.product,1);
 	req.session.cartqty.splice(req.body.product,1);
 	req.session.checkoutAmount = req.session.checkoutAmount - (req.body.product.item_price*req.body.qty)
 	console.log("new items in cart:");
 	console.log(req.session.cartitems);
 	;res.json({statusCode:200,"itemsincart":req.session.cartitems,"orderedquantities":req.session.cartqty})
-
-	//console.log(req.session.cartitems);
-
-	/*function checkProduct(element){
-
-		console.log(element);
-
-		return true;*/
-		//return element==req.body.product;
-		
-
-//	var position = req.session.cartitems.findIndex(checkProduct);
-
-	//req.session.cartitems.findIndex(checkProduct);
-
-	//console.log(position);
-
-
-
 }
-
-
-
 exports.sellHome = function(req,res){
-
 	if(req.session.username!=undefined)
 	{
 		res.render("sell",{"username":req.session.username});
 	}
-
 	else
-
 	{
 		res.redirect('/')
 	}
-
 }
-
-var registerBid = function(req,res){
-
-	logger.info("User:"+req.session.username+" bid for "+req.body.Auctionitem.item_name+ "item id:"+req.body.Auctionitem.auction_id+" Amount:"+req.body.bidAmount);	
-
-	console.log("Bid to server for:"+req.body.Auctionitem.item_name+" worth $: "+req.body.bidAmount);
-
-	console.log(req.body.Auctionitem.auction_id + " "+ req.session.username + " "+ req.body.bidAmount + " "+ "active");
-
-	var insertBidQuery = "Insert into bids (`auction_id`,`bidder`,`bid_amount`,`bid_status`) values ('"+req.body.Auctionitem.auction_id+"','"+ req.session.username +"','"+ req.body.bidAmount+"','active');";
-
-	mysql.storeData(function(err,results){
-		if(err){
-			res.json({"statusCode":500})
-			throw err;
-		}
-		else 
-		{
-			if(results.length > 0){
-
-				console.log(results[0]);
-
-				res.json({ user: 'tobi' })
-				res.end();
-			}
-			else {
-			}
-
-		}
-
-	},insertBidQuery);
-
-
-
-
-}
-
-
 
 var getHighestBids = function (auctions, callback) {
-
 
 	var highestBids = []; 
 	var rows = [];
@@ -390,54 +85,25 @@ var getHighestBids = function (auctions, callback) {
 	{
 
 		console.log("Before querying highest bid for:"+auctionitem);
-
 		console.log("for "+auctions[auctionitem].item_name+" auction id is :"+auctionitem);
 		var getHighestBidQuery = "select * from bids where bid_amount = (select max(bid_amount) from bids where auction_id = '"+auctions[auctionitem].auction_id+"') AND auction_id ='"+auctions[auctionitem].auction_id+"' ;";
-
-
 		mysql.fetchBlockingData(getHighestBidQuery, function(response){
-
 			if(response[0]!=null){
-				console.log("Now setting highest bid for......... "+ response[0].auction_id);
-
 				highestBids.push(response[0]);
 			}
-
 			console.log("auctionitem " + i);
-
 			i++;	
-
-
 			if(i == auctions.length){
-				console.log("final callback called");
 				callback(highestBids);
 			}
-
 		});					
-
-		
-
-
-
-
-
 	}
-
 }
-
-
-
-
 exports.concludeAuction = function (req,res){
-
 	console.log("inside Auction processor function");
-
-
 	var expiredItems = "select * from auctions where expires <= NOW()";
 	var highestBidforresult = [];
-
 	mysql.fetchData(function(err,results){
-
 		if(err){
 			throw err;
 		}
@@ -447,8 +113,6 @@ exports.concludeAuction = function (req,res){
 			{
 				console.log("expired Auction items:");
 				console.log(results);
-
-
 				getHighestBids(results, function(highestbids){
 					for (var result in results)
 					{
@@ -458,38 +122,23 @@ exports.concludeAuction = function (req,res){
 							console.log("GOt the highest bid for :"+results[result].item_name+" as $:"+highestbids[result].bid_id);
 							var updateLostBidQuery = "update bids set bid_status = 'lost' where auction_id='"+results[result].auction_id+"' AND bid_id !='"+highestbids[result].bid_id+"'";
 							mysql.storeData(function(error,updatedResults){
-
 								console.log("updated lost bids for :"+results[result].auction_id);
 							},updateLostBidQuery);
-
-
 							var updateWonBidQuery = "update bids set bid_status = 'won' where auction_id='"+results[result].auction_id+"' AND bid_id ='"+highestbids[result].bid_id+"'";
-
 							mysql.storeData(function(error,updatedResults){
-
 								console.log("updated won bids for :"+results[result].auction_id);
-
 							},updateWonBidQuery);
-
 						}
-
 					}
-
 				})
-
-
-
-
 			}
 		}
 	},expiredItems);
-
-
-
-
 }
 
-var postAdM = function (req,res) {
+
+
+var postAdMP = function (req,res) {
 
 
 	//if(req.session.username!=undefined)
@@ -505,13 +154,8 @@ var postAdM = function (req,res) {
 		expires_at = dateFormat(expires_at, "yyyy:mm:dd HH:MM:ss");
 		counterName="counters";
 		mUtility.getNewNextSequence(counterName,function(value){
-
-
 	console.log("found next id for: "+counterName);
 	console.log(value);
-	
-
-
 		var product = 
 		{
 			'product_id': value,
@@ -525,37 +169,29 @@ var postAdM = function (req,res) {
 			'expires_at':expires_at,
 			bids : [],
 			orders: []							
-
 		}
-
-		mongo.connect(mongoURL, function(){
-		console.log('Connected to mongo at: ' + mongoURL);
-		var coll = mongo.collection('products');
-
-		coll.insert(product, function(err,produt){
-
-			if(product)
-			{
-			console.log(product);
-			res.json({ statusCode: 200 })
-					res.end();
-			
+		var msg_payload = {
+			"func" : "PostAd",
+			 "product" : product
+		}
+		mq_client.make_request('Ad_queue',msg_payload, function(err,results){
+			console.log(results);
+			if(err){
+				 res.status(500).json({AdPosted:false});
 			}
-			else
-				console.log(err);
-
-		});
-		});
+			if(response!=null && !response.userCreated){
+				res.status(500).json({AdPosted:false});
+			}
+			if(results.AdPosted){
+				res.json({ statusCode: 200 });
+			}			
+		})
 	});
+	}
 }
-}
-
-var postAuctionM = function(req,res) {
-
-	console.log(req.body.item_quantity);
-
+	var postAuctionMP = function(req,res) {
+		console.log(req.body.item_quantity);
 		winston.info("Clicked: Mongo Post Auction");
-
 		var posted_at = new Date();
 		var expires_at = new Date();
 		expires_at=expires_at.setTime(posted_at.getTime() + (4*86400000));
@@ -563,7 +199,6 @@ var postAuctionM = function(req,res) {
 		expires_at = dateFormat(expires_at, "yyyy:mm:dd HH:MM:ss");
 		counterName="counters";
 		mUtility.getNewNextSequence(counterName,function(value){
-
 		var product = 
 		{
 			'product_id': value,
@@ -577,82 +212,57 @@ var postAuctionM = function(req,res) {
 			'expires_at':expires_at,
 			bids : [],
 			orders: []							
-
 		}
-
-		mongo.connect(mongoURL, function(){
-		console.log('Connected to mongo at: ' + mongoURL);
-		var coll = mongo.collection('products');
-
-		coll.insert(product, function(err,produt){
-
-			if(product)
-			{
-			console.log(product);
-			res.json({ statusCode: 200 })
-					res.end();
-			
+		var msg_payload = {
+			"func": "PostAuction",
+			"product": product
+		}
+		mq_client.make_request('Ad_queue',msg_payload, function(err,results){
+			console.log(results);
+			if(err){
+				 res.status(500).json({AuctionPosted:false});
 			}
-			else
-				console.log(err);
+			if(response!=null && !response.userCreated){
+				res.status(500).json({AuctionPosted:false});
+			}
+			if(results.AdPosted){
+				res.json({ statusCode: 200 });
+					res.end();
+			}			
+		})
 
-		});
-		});
 	});
 	}
-
 var getAdsM = function(req,res) {
-
-
-
 	if(req.session.username!=undefined)
 	{
 		winston.info("Requested Mongo all ads");
-
 		mongo.connect(mongoURL, function(){
 		console.log('Connected to mongo at: ' + mongoURL);
 		var coll = mongo.collection('products');
-
 		coll.find({sale_type:'sale'}).toArray(function(err,sales){
-
 			console.log(sales);
 			res.json({'ads':sales,"itemsincart":req.session.cartitems,"orderedquantities":req.session.cartqty});
-
 			});
 		});
 	}
-
 	else {
-
 		res.json({"logged-in":"false"})
 	}
-
 }
-
 var getAuctionsM = function(req,res) {
-
-
-
 	if(req.session.username!=undefined)
 	{
 		winston.info("Requested Mongo all auctions");
-
 		var now = new Date();
 		now = dateFormat(now, "yyyy:mm:dd HH:MM:ss");	
-
-
 		mongo.connect(mongoURL, function(){
 		console.log('Connected to mongo at: ' + mongoURL);
 		var coll = mongo.collection('products');
-
 		coll.find({sale_type:'Auction',expires_at:{$gt:now}}).toArray(function(err,auctions){
-
 			var highestbids = [];
 			console.log(auctions);
-
 			for(item in auctions){
-
-
 				if(auctions[item].bids[0])
 					{
 						highestbids[item]=auctions[item].bids[0]
@@ -660,26 +270,18 @@ var getAuctionsM = function(req,res) {
 						console.log(auctions[item].bids[0]);
 					}
 			}
-
 			res.json({'auctions':auctions});
-
 			});
 		});
 	}
-
 	else {
-
 		res.json({"logged-in":"false"})
 	}
-
 }
-
-var registerBidM = function(req,res){
+var registerBidMP = function(req,res){
 
 	logger.info("User:"+req.session.username+" bid for "+req.body.Auctionitem.item_name+ "item id:"+req.body.Auctionitem.auction_id+" Amount:"+req.body.bidAmount);	
-
 	console.log("Bid to server for:"+req.body.Auctionitem.item_name+" worth $: "+req.body.bidAmount);
-
 	console.log(req.body.Auctionitem.auction_id + " "+ req.session.username + " "+ req.body.bidAmount + " "+ "active");
 	counterName="bidcounters";
 		mUtility.getNewNextSequence(counterName,function(value){
@@ -687,56 +289,36 @@ var registerBidM = function(req,res){
 				console.log(now);
 				var mydate = dateFormat(now, "yyyy:mm:dd HH:MM:ss");
 
-	mongo.connect(mongoURL, function(){
-				console.log('Connected to mongo at: ' + mongoURL);
-				var coll = mongo.collection('products');
-				//var updatedQuantity = orderedItem.item_quantity - req.session.cartqty[item];
-				//console.log("updated Quantity:"+updatedQuantity);
+				var msg_payload = {
 
-				coll.update({product_id:req.body.Auctionitem.product_id},{
-					$push: {
-						'bids': {
-								'bid_id':value,
-								'bidder': req.session.username,
-								'bid_amount': req.body.bidAmount,
-								'bid_time': mydate
-					        }
-					      }
-				});
-			});
-      });
+					"func":"RegisterBid",
+					 "product_id": req.body.Auctionitem.product_id,
+					 'value':value,
+					  "bidder":req.session.username,
+					  "bid_amount":req.body.bidAmount,
+					  "bid_time":mydate
+				}
 
-	/*var insertBidQuery = "Insert into bids (`auction_id`,`bidder`,`bid_amount`,`bid_status`) values ('"+req.body.Auctionitem.auction_id+"','"+ req.session.username +"','"+ req.body.bidAmount+"','active');";
 
-	mysql.storeData(function(err,results){
-		if(err){
-			res.json({"statusCode":500})
-			throw err;
-		}
-		else 
-		{
-			if(results.length > 0){
-
-				console.log(results[0]);
-
-				res.json({ user: 'tobi' })
-				res.end();
+		mq_client.make_request('Ad_queue',msg_payload, function(err,results){
+			console.log(results);
+			if(err){
+				 res.status(500).json({BidPosted:false});
 			}
-			else {
+			if(results!=null && !response.userCreated){
+				res.status(500).json({BidPosted:false});
 			}
+			if(results.BidPosted){
+				res.json({ statusCode: 200 });
+					res.end();
+			}			
 
-		}
-
-	},insertBidQuery);*/
-
-
-
-
+		})
+     });
 }
 
-
-exports.getAuctions= getAuctionsM;
-exports.postAd = postAdM;
-exports.postAuction = postAuctionM;
 exports.getAds = getAdsM;
-exports.registerBid = registerBidM;
+exports.getAuctions= getAuctionsM;
+exports.postAd = postAdMP;
+exports.postAuction = postAuctionMP;
+exports.registerBid = registerBidMP;

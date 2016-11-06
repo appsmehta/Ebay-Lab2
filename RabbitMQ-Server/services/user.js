@@ -64,22 +64,45 @@ function signUpConsumer(msg,callback) {
 
 				if(user)
 				{
-					//console.log("registered: "+req.body.username);
+					
 					console.log(user);
-					//json_responses = {"statusCode" : 200};
 					callback(null,{userCreated:true});
-					/*res.json({userCreated:true});*/
 				}
 				else{
 					console.log(err);
 					callback(err,{userCreated:false});
-					/*res.json({userCreated:false});*/
-				}
+					}
 
 			});	
 		});
 }
 
+var UpdateProfile = function (msg,callback) {
+
+console.log("Inside Profile Update Rabbit MQ")
+
+console.log(msg.UserObject);
+
+mongo.connect(mongoURL, function(){
+        console.log('Connected to mongo at: ' + mongoURL);
+        var coll = mongo.collection('users');
+
+        coll.update({'email':msg.username},{$set:msg.UserObject},function(err,result){
+
+                        if(result)
+                       { 
+                        console.log(result);
+                        callback(null,{UserUpdated:true});
+
+                        }
+                });
+        
+    });
+    res.send("ok");
+
+}
+
 
 exports.loginConsumer = loginConsumer;
 exports.signUpConsumer = signUpConsumer;
+exports.UpdateProfile = UpdateProfile;
