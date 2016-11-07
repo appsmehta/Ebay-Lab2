@@ -89,12 +89,12 @@ mongo.connect(mongoURL, function(){
 
         coll.update({'email':msg.username},{$set:msg.UserObject},function(err,result){
 
-                        if(result)
-                       { 
+                        
+                       
                         console.log(result);
                         callback(null,{UserUpdated:true});
 
-                        }
+                        
                 });
         
     });

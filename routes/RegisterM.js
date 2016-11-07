@@ -7,7 +7,8 @@ var winston = require('../log.js');
 var passport = require("passport");
 require('./passport')(passport);
 var mq_client = require('../rpc/client');
-
+var assert = require('assert');
+var expect = require('chai').expect;
 
 var LocalStrategy = require("passport-local").Strategy;
 var loginDatabase = "mongodb://localhost:27017/login";
@@ -134,13 +135,13 @@ exports.authenticateP= function(req,res,next){
 				json_responses = {"statusCode" : 200,"username":req.session.username,"previous_logged_in":req.session.previous_logged_in};
 		   				res.send(json_responses);
 
-				mongo.connect(mongoURL, function(){
+				/*mongo.connect(mongoURL, function(){
 					console.log('Connected to mongo at: ' + mongoURL);
 					var coll = mongo.collection('users');
 					coll.update({'email':user.email},{$set:{'last_logged_in':mydate},function(err,result){
 						console.log(result);
   							  }}); 
-				});
+				});*/
 			})
 
   }) (req, res, next);
